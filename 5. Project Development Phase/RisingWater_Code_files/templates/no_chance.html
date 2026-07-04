@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Flood Prediction Result</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+
+        background: url("{{ url_for('static', filename='images/flood-bg.png') }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .overlay {
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.55);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        width: 600px;
+        background: whitesmoke;
+        padding: 45px;
+        border-radius: 18px;
+        text-align: center;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+      }
+
+      h1 {
+        color: #e60000;
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        font-size: 28px;
+        color: #222;
+        margin-bottom: 35px;
+      }
+
+      button {
+        background: #0d6efd;
+        color: white;
+        border: none;
+        padding: 15px 35px;
+        font-size: 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #084dbd;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="overlay">
+      <div class="container">
+        <h1 style="color: green">✅ No Flood Chance</h1>
+
+        <h2>Weather conditions indicate a low possibility of flooding.</h2>
+
+        <br /><br />
+
+        <a href="/">Predict Again</a>
+      </div>
+    </div>
+  </body>
+</html>

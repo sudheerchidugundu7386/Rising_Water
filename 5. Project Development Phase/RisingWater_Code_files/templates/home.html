@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Flood Prediction System</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        background: url("{{ url_for('static', filename='images/flood-bg.png') }}");
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-attachment: fixed;
+      }
+
+      .overlay {
+        background: rgba(0, 0, 0, 0.55);
+
+        min-height: 100vh;
+
+        padding: 40px;
+      }
+
+      .container {
+        width: 95%;
+
+        max-width: 1200px;
+
+        margin: auto;
+      }
+
+      nav {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        padding: 20px;
+
+        color: white;
+      }
+
+      .logo {
+        font-size: 45px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+
+      .subtitle {
+        font-size: 15px;
+        font-weight: 600;
+        opacity: 0.9;
+      }
+
+      .main {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-top: 40px;
+
+        flex-wrap: wrap;
+
+        gap: 30px;
+      }
+
+      .left {
+        width: 48%;
+
+        color: white;
+      }
+
+      .left h1 {
+        font-size: 35px;
+        line-height: 1.2;
+        margin-bottom: 18px;
+        font-weight: 700;
+      }
+
+      .left p {
+        font-size: 18px;
+
+        line-height: 1.8;
+      }
+
+      .form-box {
+        width: 700px;
+        max-width: 100%;
+        background: rgba(18, 18, 18, 0.68);
+        backdrop-filter: blur(15px);
+        padding: 28px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .form-box h2 {
+        text-align: center;
+
+        margin-bottom: 25px;
+
+        color: white;
+      }
+
+      .grid {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 12px;
+      }
+
+      input {
+        width: 100%;
+        height: 52px;
+        padding: 14px 16px;
+        border: none;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.22);
+        color: white;
+        font-size: 16px;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      input::placeholder {
+        color: #e2e2e2;
+        font-size: 15px;
+      }
+
+      input:focus {
+        border: 2px solid #00d9ff;
+        box-shadow: 0 0 12px rgba(0, 217, 255, 0.4);
+      }
+
+      button {
+        margin-top: 20px;
+
+        width: 100%;
+
+        padding: 14px;
+
+        background: #0d6efd;
+
+        color: white;
+
+        font-size: 18px;
+
+        font-weight: 600;
+
+        border: none;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #084dbd;
+
+        transform: scale(1.02);
+      }
+
+      .about {
+        margin-top: 50px;
+
+        background: rgba(225, 206, 206, 0.678);
+
+        padding: 30px;
+
+        border-radius: 20px;
+      }
+
+      .about h2 {
+        text-align: center;
+
+        margin-bottom: 20px;
+
+        color: #0d6efd;
+      }
+
+      .about p {
+        text-align: center;
+
+        font-size: 17px;
+
+        line-height: 1.8;
+
+        color: black;
+      }
+
+      .cards {
+        display: flex;
+
+        gap: 20px;
+
+        margin-top: 40px;
+
+        flex-wrap: wrap;
+      }
+
+      .card {
+        flex: 1;
+
+        min-width: 250px;
+
+        background: rgba(236, 232, 232, 0.678);
+
+        padding: 18px;
+
+        border-radius: 15px;
+
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+        transition: 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h3 {
+        margin-bottom: 8px;
+
+        font-size: 24px;
+
+        color: #0d6efd;
+      }
+
+      .card p {
+        text-align: left;
+
+        font-size: 15px;
+      }
+
+      footer {
+        margin-top: 60px;
+
+        padding: 20px;
+
+        text-align: center;
+
+        color: white;
+      }
+      label {
+        display: block;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px 24px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="overlay">
+      <div class="container">
+        <nav>
+          <div>
+            <div class="logo">🌊 Rising Waters</div>
+
+            <div class="subtitle">Machine Learning Flood Prediction System</div>
+          </div>
+        </nav>
+
+        <div class="main">
+          <div class="left">
+            <h1>Predict Flood Risk Before It Happens</h1>
+
+            <p>
+              Analyze rainfall, humidity, cloud cover and seasonal weather
+              conditions using an intelligent Machine Learning model. Receive an
+              instant prediction that helps identify potential flood situations.
+            </p>
+          </div>
+
+          <div class="form-box">
+            <h2>Flood Prediction</h2>
+
+            <form action="/predict" method="POST">
+              <div class="grid">
+                <div>
+                  <label>🌡 Temperature (°C)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    name="Temp"
+                    placeholder="Example: 30"
+                    min="-10"
+                    max="60"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>💧 Humidity (%)</label>
+                  <input
+                    type="number"
+                    name="Humidity"
+                    placeholder="Example: 75"
+                    min="0"
+                    max="100"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>☁ Cloud Cover (%)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="Cloud Cover"
+                    placeholder="Example: 40"
+                    min="0"
+                    max="100"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>🌧 Annual Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="ANNUAL"
+                    placeholder="Example: 3200"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>🌦 Jan-Feb Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="Jan-Feb"
+                    placeholder="Example: 250"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>🌱 Mar-May Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="Mar-May"
+                    placeholder="Example: 650"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>☔ Jun-Sep Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="Jun-Sep"
+                    placeholder="Example: 3100"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>🍂 Oct-Dec Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="Oct-Dec"
+                    placeholder="Example: 250"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>📊 Average June Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="avgjune"
+                    placeholder="Example: 275"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label>🗺 Subdivision Rainfall (mm)</label>
+                  <input
+                    type="number"
+                    step="any"
+                    name="sub"
+                    placeholder="Example: 650"
+                    min="0"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button type="submit">Predict Flood</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="about">
+          <h2>About the Project</h2>
+
+          <p>
+            The Flood Prediction System uses Machine Learning to analyze
+            rainfall, temperature, humidity, cloud cover, and seasonal weather
+            conditions to estimate flood risk. It provides fast and reliable
+            predictions through a simple and user-friendly web application.
+          </p>
+
+          <div class="cards">
+            <div class="card">
+              <h3>🌦 Climate Insights</h3>
+
+              <p>
+                Monitors important environmental factors including temperature,
+                humidity, cloud cover, and seasonal rainfall to understand
+                weather conditions associated with flood events.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>🧠 Smart Prediction</h3>
+
+              <p>
+                A trained Random Forest Machine Learning model analyzes
+                historical weather data and predicts the likelihood of flood
+                occurrence with high accuracy.
+              </p>
+            </div>
+
+            <div class="card">
+              <h3>⚡ Instant Results</h3>
+
+              <p>
+                Simply enter the required weather information and receive an
+                immediate prediction through an easy-to-use web application.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <footer>
+          <p>
+            Developed using <strong>Python</strong> | <strong>Flask</strong> |
+            <strong>Machine Learning</strong> |
+            <strong>Random Forest</strong>
+          </p>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
