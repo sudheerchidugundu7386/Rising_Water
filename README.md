@@ -122,14 +122,12 @@ based on the weather conditions entered by the user.
 
 ## 👨‍💻 Developed By
 
-**Sudheer Chidugundu**
-**Charan Neerukattu****
-**Himasri Vemulapalli**
-**Bhavya Sri Konduru**
-**Jeeshitha Sai Vistamsetty**
+- Sudheer Chidugundu
+- Charan Neerukattu
+- Jeeshitha Sai Vistamsetty
+- Himasri Vemulapalli
+- Bhavya Sri Konduru
 
-B.Tech CSE
-
-SRM University AP
-
-Internship Project
+**B.Tech CSE**  
+**SRM University AP**  
+**Internship Project**
