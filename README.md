@@ -131,3 +131,5 @@ based on the weather conditions entered by the user.
 **B.Tech CSE**  
 **SRM University AP**  
 **Internship Project**
+
+*This project was completed as part of a collaborative internship team effort.*
